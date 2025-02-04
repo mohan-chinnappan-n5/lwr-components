@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Opportunities Dashboard" icon-name="standard:dashboard">
+        <div class="slds-grid slds-wrap slds-p-around_medium">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-combobox
+                    label="Filter by Stage"
+                    value={selectedStage}
+                    options={stageOptions}
+                    data-field="selectedStage"
+                    onchange={handleFilterChange}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-4">
+                <lightning-input type="date" label="Start Date" data-field="startDate" onchange={handleFilterChange}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-4">
+                <lightning-input type="date" label="End Date" data-field="endDate" onchange={handleFilterChange}></lightning-input>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="bar"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="pie"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="line"></canvas>
+            </div>
+        </div>
+    </lightning-card>
+</template>
