@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Opportunities Dashboard" icon-name="standard:dashboard">
+        <div class="slds-p-around_medium">
+            <lightning-combobox
+                label="Select Chart Type"
+                value={selectedChartType}
+                options={chartTypes}
+                onchange={handleChartTypeChange}>
+            </lightning-combobox>
+        </div>
+
+        <div class="chart-container">
+            <canvas lwc:dom="manual"></canvas>
+        </div>
+    </lightning-card>
+</template>

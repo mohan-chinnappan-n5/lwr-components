@@ -1,0 +1,26 @@
+<template>
+    <div class="bell-container">
+        <!-- Bell Icon with Notification Count -->
+        <div class="bell-icon" onclick={toggleDropdown}>
+            <lightning-icon icon-name="utility:notification" size="medium" alternative-text="Notifications">
+            </lightning-icon>
+            <span if:true={unreadCount} class="notification-count">{unreadCount}</span>
+        </div>
+
+        <!-- Dropdown Menu -->
+        <div if:true={showDropdown} class="dropdown">
+            <div class="dropdown-header">
+                <span>Notifications</span>
+                <button class="mark-all" onclick={markAllAsRead}>Mark all as read</button>
+            </div>
+            <ul class="notification-list">
+                <template for:each={notifications} for:item="notification">
+                    <li key={notification.id} class={notification.class}>
+                        <span>{notification.message}</span>
+                        <button onclick={markAsRead} data-id={notification.id}>✔</button>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </div>
+</template>
