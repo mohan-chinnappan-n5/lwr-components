@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Accounts Dashboard" icon-name="standard:account">
+        <div class="slds-grid slds-wrap slds-p-around_medium">
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-combobox
+                    label="Filter by Industry"
+                    value={selectedIndustry}
+                    options={industryOptions}
+                    data-field="selectedIndustry"
+                    onchange={handleFilterChange}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-combobox
+                    label="Filter by Type"
+                    value={selectedType}
+                    options={typeOptions}
+                    data-field="selectedType"
+                    onchange={handleFilterChange}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-6">
+                <lightning-input type="date" label="Start Date" data-field="startDate" onchange={handleFilterChange}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-6">
+                <lightning-input type="date" label="End Date" data-field="endDate" onchange={handleFilterChange}></lightning-input>
+            </div>
+        </div>
+
+        <div class="slds-p-around_medium">
+            <lightning-button label="Export CSV" onclick={exportToCSV}></lightning-button>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="bar"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="pie"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas lwc:dom="manual" data-type="line"></canvas>
+            </div>
+        </div>
+    </lightning-card>
+</template>

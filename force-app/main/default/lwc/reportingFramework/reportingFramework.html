@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="Dynamic Reporting Framework">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}>
+            </lightning-combobox>
+
+            <template if:true={fieldOptions.length}>
+                <lightning-dual-listbox
+                    label="Select Fields"
+                    options={fieldOptions}
+                    value={selectedFields}
+                    onchange={handleFieldsChange}>
+                </lightning-dual-listbox>
+            </template>
+
+            <lightning-input
+                type="text"
+                label="Filter Condition (e.g. Industry = 'Banking')"
+                onchange={handleFilterChange}>
+            </lightning-input>
+
+            <lightning-button
+                label="Generate Report"
+                onclick={handleGenerateReport}
+                class="slds-m-top_medium">
+            </lightning-button>
+        </div>
+
+        <!-- Floating Balloon to show fetched records -->
+        <template if:true={showBalloon}>
+            <div class="balloon">
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
+        <template if:true={reportData.length}>
+
+            <h2 class="slds-text-heading_medium slds-m-around_medium">Report Data</h2>
+            <lightning-datatable 
+                key-field="Id" 
+                data={reportData} 
+                columns={columns}
+                hide-checkbox-column="true">
+            </lightning-datatable>
+        </template>
+
+        <template if:false={reportData.length}>
+            <p class="slds-text-color_destructive slds-m-around_medium">No data found.</p>
+        </template>
+        <template if:true={reportData.length}>
+            <p class="slds-text-color_destructive slds-m-around_medium">{reportData.length} record(s) found</p>
+        </template>
+
+    </lightning-card>
+</template>
