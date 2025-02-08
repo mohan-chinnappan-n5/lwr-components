@@ -30,7 +30,6 @@
             </lightning-button>
         </div>
 
-        <!-- Floating Balloon to show fetched records -->
         <template if:true={showBalloon}>
             <div class="balloon">
                 <pre>{balloonContent}</pre>
@@ -38,22 +37,51 @@
         </template>
 
         <template if:true={reportData.length}>
+            <p class="slds-text-color_success slds-m-around_medium">{reportData.length} record(s) found</p>
+            <lightning-button
+                label="Show Table"
+                onclick={handleShowTable}
+                class="slds-m-top_medium">
+            </lightning-button>
+        </template>
 
-            <h2 class="slds-text-heading_medium slds-m-around_medium">Report Data</h2>
+        <template if:true={showTable}>
+            <lightning-button label="Export CSV" onclick={handleExportCSV}></lightning-button>
+            <lightning-button label="Show Chart" onclick={handleShowChart}></lightning-button>
+
+            <lightning-combobox
+                label="Page Size"
+                value={pageSize}
+                options={pageSizeOptions}
+                onchange={handlePageSizeChange}>
+            </lightning-combobox>
+
             <lightning-datatable 
                 key-field="Id" 
-                data={reportData} 
+                data={paginatedData} 
                 columns={columns}
                 hide-checkbox-column="true">
             </lightning-datatable>
+
+            <div class="slds-m-top_medium slds-m-bottom_medium">
+                <lightning-button label="Previous" onclick={handlePreviousPage} disabled={isPreviousDisabled}></lightning-button>
+                <span class="slds-m-horizontal_medium">Page {currentPage} of {totalPages}</span>
+                <lightning-button label="Next" onclick={handleNextPage} disabled={isNextDisabled}></lightning-button>
+            </div>
         </template>
 
-        <template if:false={reportData.length}>
-            <p class="slds-text-color_destructive slds-m-around_medium">No data found.</p>
-        </template>
-        <template if:true={reportData.length}>
-            <p class="slds-text-color_destructive slds-m-around_medium">{reportData.length} record(s) found</p>
-        </template>
+        <template if:true={showChart}>
+            <lightning-combobox 
+                label="Chart Type"
+                value={chartType}
+                options={chartOptions}
+                onchange={handleChartTypeChange}>
+            </lightning-combobox>
+           
 
+            <div style="width: 100%; height: 400px;">
+                <canvas></canvas>
+            </div>
+        </template>
     </lightning-card>
 </template>

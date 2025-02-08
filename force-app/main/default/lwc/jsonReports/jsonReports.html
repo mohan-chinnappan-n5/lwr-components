@@ -1,0 +1,64 @@
+<template>
+    <lightning-card title="JSON-Based Reports & Dashboards">
+        <div class="slds-m-around_medium">
+            <lightning-input type="file" label="Upload JSON File" accept=".json" onchange={handleFileUpload}></lightning-input>
+        </div>
+
+        <!-- Table Display -->
+        <template if:true={showTable}>
+            <h2 class="slds-text-heading_medium slds-m-around_medium">Report Data</h2>
+
+            <div class="slds-m-around_medium">
+                <lightning-input 
+                    type="search" 
+                    label="Search" 
+                    placeholder="Search records..." 
+                    onchange={handleSearch}>
+                </lightning-input>
+
+                <lightning-combobox
+                label="Page Size"
+                value={pageSize}
+                options={pageSizeOptions}
+                onchange={handlePageSizeChange}>
+            </lightning-combobox>
+            </div>
+
+            <lightning-datatable key-field="Id" data={paginatedData} columns={columns} hide-checkbox-column="true"></lightning-datatable>
+
+              <!-- Pagination Controls -->
+              <div class="slds-m-around_medium slds-grid slds-grid_align-spread">
+                <lightning-button 
+                    label="Previous" 
+                    onclick={handlePreviousPage} 
+                    disabled={isPreviousDisabled}>
+                </lightning-button>
+
+                <p>Page {currentPage} of {totalPages}</p>
+
+                <lightning-button 
+                    label="Next" 
+                    onclick={handleNextPage} 
+                    disabled={isNextDisabled}>
+                </lightning-button>
+
+                 
+            </div>
+
+        </template>
+
+        <!-- Chart Display -->
+        <template if:true={showCharts}>
+            <h2 class="slds-text-heading_medium slds-m-around_medium">Dashboard Charts</h2>
+            <template for:each={charts} for:item="chartConfig" for:index="index">
+                <div key={chartConfig.title} class="slds-m-around_medium">
+                    <h3 class="slds-text-heading_small">{chartConfig.title}</h3>
+                    <div style="width: 100%; height: 400px;">
+                        <canvas data-index={index}></canvas>
+
+                    </div>
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+</template>
