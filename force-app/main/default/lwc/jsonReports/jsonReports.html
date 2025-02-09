@@ -1,80 +1,93 @@
 <template>
-    <lightning-card title="JSON-Based Reports & Dashboards">
-        <div class="slds-m-around_medium">
-            <lightning-input type="file" label="Upload JSON File" accept=".json" onchange={handleFileUpload}></lightning-input>
+    <lightning-card title="JSON-Based Reports & Dashboards" class="slds-p-around_large slds-m-around_large">
+        <!-- File Upload Section -->
+        <div class="slds-p-around_medium">
+            <lightning-input 
+                type="file" 
+                label="Upload JSON File" 
+                accept=".json" 
+                onchange={handleFileUpload} 
+                class="slds-m-bottom_medium">
+            </lightning-input>
         </div>
-
-        
 
         <!-- Floating Balloon for JSON Content -->
         <template if:true={showBalloon}>
-            <div class="balloon">
-                <button class="close-btn" onclick={closeBalloon}>✖</button>
+            <div class="balloon slds-p-around_medium">
+                <button class="close-btn slds-button slds-button_icon slds-button_icon-inverse" onclick={closeBalloon}>
+                    <lightning-icon icon-name="utility:close" size="small" alternative-text="Close" class="slds-button__icon slds-button__icon_large"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
                 <pre>{balloonContent}</pre>
             </div>
         </template>
-
 
         <!-- Table Display -->
         <template if:true={showTable}>
             <h2 class="slds-text-heading_medium slds-m-around_medium">Report Data</h2>
 
-            <div class="slds-m-around_medium">
+            <div class="slds-grid slds-grid_align-spread slds-p-around_medium">
+                <!-- Search Input and Page Size Selection -->
                 <lightning-input 
                     type="search" 
                     label="Search" 
                     placeholder="Search records..." 
-                    onchange={handleSearch}>
+                    onchange={handleSearch} 
+                    class="slds-m-bottom_medium">
                 </lightning-input>
 
                 <lightning-combobox
-                label="Page Size"
-                value={pageSize}
-                options={pageSizeOptions}
-                onchange={handlePageSizeChange}>
-                
+                    label="Page Size"
+                    value={pageSize}
+                    options={pageSizeOptions}
+                    onchange={handlePageSizeChange} 
+                    class="slds-m-bottom_medium">
                 </lightning-combobox>
             </div>
 
-            <lightning-datatable key-field="Id" data={paginatedData} columns={columns} hide-checkbox-column="true"
-            
-            sorted-by={sortBy}
-            sorted-direction={sortDirection}
-            onsort={handleSort}>
-                
+            <!-- Datatable -->
+            <lightning-datatable 
+                key-field="Id" 
+                data={paginatedData} 
+                columns={columns} 
+                hide-checkbox-column="true"
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                onsort={handleSort}>
             </lightning-datatable>
 
-              <!-- Pagination Controls -->
-              <div class="slds-m-around_medium slds-grid slds-grid_align-spread">
+            <!-- Pagination Controls -->
+            <div class="slds-grid slds-grid_align-spread slds-m-around_medium">
                 <lightning-button 
                     label="Previous" 
                     onclick={handlePreviousPage} 
-                    disabled={isPreviousDisabled}>
+                    disabled={isPreviousDisabled} 
+                    class="slds-button slds-button_neutral">
                 </lightning-button>
 
-                <p>Page {currentPage} of {totalPages}</p>
+                <p class="slds-text-body_regular">Page {currentPage} of {totalPages}</p>
 
                 <lightning-button 
                     label="Next" 
                     onclick={handleNextPage} 
-                    disabled={isNextDisabled}>
+                    disabled={isNextDisabled} 
+                    class="slds-button slds-button_neutral">
                 </lightning-button>
-
-                 <!-- Export CSV Button -->
-                <template if:true={showExportButton}>
-                    <div class="slds-m-around_medium">
-                        <lightning-button label="Export to CSV" onclick={exportToCSV}></lightning-button>
-                    </div>
-                </template>
-
-                <!-- CSV Download Link (Initially Hidden) -->
-                <template if:true={showExportButton}>
-                    <div class="slds-m-around_medium">
-                        <a href="#" class="download-link" style="display:none;" target="_blank">Download CSV</a>
-                    </div>
-                </template>
             </div>
 
+            <!-- Export CSV Button -->
+            <template if:true={showExportButton}>
+                <div class="slds-m-around_medium">
+                    <lightning-button label="Export to CSV" onclick={exportToCSV} class="slds-button slds-button_brand"></lightning-button>
+                </div>
+            </template>
+
+            <!-- CSV Download Link (Initially Hidden) -->
+            <template if:true={showExportButton}>
+                <div class="slds-m-around_medium">
+                    <a href="#" class="download-link slds-text-link" style="display:none;" target="_blank">Download CSV</a>
+                </div>
+            </template>
         </template>
 
         <!-- Chart Display -->
@@ -85,7 +98,6 @@
                     <h3 class="slds-text-heading_small">{chartConfig.title}</h3>
                     <div style="width: 100%; height: 400px;">
                         <canvas data-index={index}></canvas>
-
                     </div>
                 </div>
             </template>

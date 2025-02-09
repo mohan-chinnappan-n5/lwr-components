@@ -5,7 +5,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import generateCSVFile from '@salesforce/apex/CsvExportController.generateCSVFile';
 
 
-import { NavigationMixin } from 'lightning/navigation';
+// import { NavigationMixin } from 'lightning/navigation';
 
 
 export default class JsonReports extends LightningElement {
