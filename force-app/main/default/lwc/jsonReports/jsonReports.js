@@ -2,6 +2,8 @@ import { LightningElement, track } from 'lwc';
 import getReportData from '@salesforce/apex/JsonReportController.getReportData';
 import ChartJS from '@salesforce/resourceUrl/ChartJS2';
 import { loadScript } from 'lightning/platformResourceLoader';
+import generateCSVFile from '@salesforce/apex/CsvExportController.generateCSVFile';
+
 
 import { NavigationMixin } from 'lightning/navigation';
 
@@ -293,23 +295,21 @@ export default class JsonReports extends LightningElement {
             let row = this.columns.map(col => `"${record[col.fieldName] || ''}"`).join(',');
             csvContent += row + '\n';
         });
-      // Convert CSV content to a Base64 format
-      let csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        // Convert CSV to Base64 (LWS-Safe)
+        let csvBase64 = btoa(unescape(encodeURIComponent(csvContent)));
 
-      // Use NavigationMixin to trigger file download
-      this[NavigationMixin.GenerateUrl]({
-          type: 'standard__webPage',
-          attributes: {
-              url: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent)
-          }
-      }).then(url => {
-          let link = document.createElement('a');
-          link.href = url;
-          link.download = 'report_data.csv';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-      });
+        generateCSVFile({ csvData: csvBase64, fileName: 'report_data.csv' })
+        .then(fileUrl => {
+            const linkElement = this.template.querySelector('.download-link');
+            linkElement.href = fileUrl;
+            linkElement.download = 'report_data.csv';
+            linkElement.style.display = 'inline-block'; 
+            
+        })
+        .catch(error => {
+            console.error('Error generating CSV:', error);
+            alert('Error exporting CSV. Please try again.');
+        });
     }
 
 }

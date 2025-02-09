@@ -1,0 +1,29 @@
+<think>
+First, determine the number of years you've had the peach tree. The user mentioned that it's been around for 10 years.
+
+Next, find out the average yield per year, which is 299 peaches per year.
+
+Then, calculate the total number of peaches by multiplying the number of years by the average yield: 10 years * 299 peaches/year = 2990 peaches.
+
+Finally, conclude that you have accumulated a total of 2990 peaches from your peach tree over the past decade.
+</think>
+
+To determine the total number of peaches harvested from your peach tree over its 10-year life, follow these steps:
+
+1. **Number of Years:** 
+   - The peach tree has been around for **10 years**.
+
+2. **Average Peaches Per Year:**
+   - Each year, it yields approximately **299 peaches** on average.
+
+3. **Total Peaches Harvested:**
+   \[
+   \text{Total Peaches} = \text{Number of Years} \times \text{Peaches per Year}
+   \]
+   \[
+   \text{Total Peaches} = 10 \times 299 = 2990
+   \]
+
+\[
+\boxed{2990\ \text{peaches}}
+\]

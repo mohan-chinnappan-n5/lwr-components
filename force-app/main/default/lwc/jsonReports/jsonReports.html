@@ -66,6 +66,13 @@
                         <lightning-button label="Export to CSV" onclick={exportToCSV}></lightning-button>
                     </div>
                 </template>
+
+                <!-- CSV Download Link (Initially Hidden) -->
+                <template if:true={showExportButton}>
+                    <div class="slds-m-around_medium">
+                        <a href="#" class="download-link" style="display:none;" target="_blank">Download CSV</a>
+                    </div>
+                </template>
             </div>
 
         </template>
