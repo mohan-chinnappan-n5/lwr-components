@@ -27,6 +27,9 @@ export default class JsonReports extends LightningElement {
         { label: '20', value: '20' }
     ];
 
+    @track sortBy;
+    @track sortDirection = 'asc';
+
 
     connectedCallback() {
         // Load Chart.js dynamically
@@ -102,7 +105,8 @@ export default class JsonReports extends LightningElement {
                 this.columns = fields.map(field => ({
                     label: field,
                     fieldName: field,
-                    type: 'text'
+                    type: 'text',
+                    sortable: true // Enable sorting
                 }));
 
                 this.reportData = result.map(record => ({
@@ -232,4 +236,26 @@ export default class JsonReports extends LightningElement {
     get isNextDisabled() {
         return this.currentPage >= this.totalPages;
     }
+
+    handleSort(event) {
+        this.sortBy = event.detail.fieldName;
+        this.sortDirection = event.detail.sortDirection;
+        this.sortData();
+    }
+    
+    sortData() {
+        let sortedData = [...this.filteredData];
+        sortedData.sort((a, b) => {
+            let valueA = a[this.sortBy] ? a[this.sortBy].toString().toLowerCase() : '';
+            let valueB = b[this.sortBy] ? b[this.sortBy].toString().toLowerCase() : '';
+    
+            return this.sortDirection === 'asc'
+                ? valueA.localeCompare(valueB, undefined, { numeric: true })
+                : valueB.localeCompare(valueA, undefined, { numeric: true });
+        });
+    
+        this.filteredData = sortedData;
+        this.updatePagination();
+    }
+
 }

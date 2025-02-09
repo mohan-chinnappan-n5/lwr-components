@@ -24,7 +24,13 @@
             </lightning-combobox>
             </div>
 
-            <lightning-datatable key-field="Id" data={paginatedData} columns={columns} hide-checkbox-column="true"></lightning-datatable>
+            <lightning-datatable key-field="Id" data={paginatedData} columns={columns} hide-checkbox-column="true"
+            
+            sorted-by={sortBy}
+            sorted-direction={sortDirection}
+            onsort={handleSort}>
+                
+            </lightning-datatable>
 
               <!-- Pagination Controls -->
               <div class="slds-m-around_medium slds-grid slds-grid_align-spread">
