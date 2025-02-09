@@ -24,11 +24,15 @@ export default class JsonReports extends LightningElement {
     @track pageSizeOptions = [
         { label: '5', value: '5' },
         { label: '10', value: '10' },
-        { label: '20', value: '20' }
+        { label: '20', value: '20' },
+        { label: '50', value: '50' }
     ];
 
     @track sortBy;
     @track sortDirection = 'asc';
+
+    @track showBalloon = false;
+    @track balloonContent = '';
 
 
     connectedCallback() {
@@ -54,6 +58,13 @@ export default class JsonReports extends LightningElement {
             try {
                 this.parsedJson = JSON.parse(reader.result);
                 console.log('✅ JSON Parsed Successfully:', this.parsedJson);
+
+                 // Show JSON in balloon
+                this.balloonContent = JSON.stringify(this.parsedJson, null, 2);
+                this.showBalloon = true;
+
+                // Hide balloon after 12 seconds
+                //setTimeout(() => { this.showBalloon = false; }, 12000);
 
                 // Ensure JSON contains expected structure
                 if (!this.parsedJson.report || !this.parsedJson.dashboard) {
@@ -256,6 +267,10 @@ export default class JsonReports extends LightningElement {
     
         this.filteredData = sortedData;
         this.updatePagination();
+    }
+
+    closeBalloon() {
+        this.showBalloon = false;
     }
 
 }

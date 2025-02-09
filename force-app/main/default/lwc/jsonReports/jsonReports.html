@@ -4,6 +4,15 @@
             <lightning-input type="file" label="Upload JSON File" accept=".json" onchange={handleFileUpload}></lightning-input>
         </div>
 
+        <!-- Floating Balloon for JSON Content -->
+        <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>✖</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
+
         <!-- Table Display -->
         <template if:true={showTable}>
             <h2 class="slds-text-heading_medium slds-m-around_medium">Report Data</h2>
