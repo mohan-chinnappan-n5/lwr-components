@@ -3,7 +3,9 @@
     "object": "Opportunity",
     "fields": ["Name", "StageName", "Amount" ],
      "filter": "StageName IN ('Closed Won', 'Qualification')",
-    "recordLimit":100 
+    "recordLimit":100,
+    "exportToCSV": true
+
   },
   "dashboard": {
     "charts": [

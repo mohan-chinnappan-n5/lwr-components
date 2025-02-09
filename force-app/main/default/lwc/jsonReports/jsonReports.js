@@ -3,6 +3,9 @@ import getReportData from '@salesforce/apex/JsonReportController.getReportData';
 import ChartJS from '@salesforce/resourceUrl/ChartJS2';
 import { loadScript } from 'lightning/platformResourceLoader';
 
+import { NavigationMixin } from 'lightning/navigation';
+
+
 export default class JsonReports extends LightningElement {
     @track reportData = [];
     @track filteredData = [];
@@ -33,6 +36,7 @@ export default class JsonReports extends LightningElement {
 
     @track showBalloon = false;
     @track balloonContent = '';
+    @track showExportButton = true;
 
 
     connectedCallback() {
@@ -87,6 +91,9 @@ export default class JsonReports extends LightningElement {
                 // Extract dashboard charts
                 this.charts = this.parsedJson.dashboard.charts;
                 this.showCharts = true;
+
+                 // Enable CSV Export Button
+                 this.showExportButton = this.parsedJson.report.allowExport;
             } catch (error) {
                 console.error('❌ JSON Parsing Error:', error);
                 alert('Invalid JSON file. Please upload a correctly formatted JSON file.');
@@ -271,6 +278,38 @@ export default class JsonReports extends LightningElement {
 
     closeBalloon() {
         this.showBalloon = false;
+    }
+
+    // csv
+    exportToCSV() {
+        if (!this.reportData || this.reportData.length === 0) {
+            alert('No data available for export.');
+            return;
+        }
+    
+        let csvContent = this.columns.map(col => col.label).join(',') + '\n'; // CSV Headers
+    
+        this.reportData.forEach(record => {
+            let row = this.columns.map(col => `"${record[col.fieldName] || ''}"`).join(',');
+            csvContent += row + '\n';
+        });
+      // Convert CSV content to a Base64 format
+      let csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+      // Use NavigationMixin to trigger file download
+      this[NavigationMixin.GenerateUrl]({
+          type: 'standard__webPage',
+          attributes: {
+              url: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent)
+          }
+      }).then(url => {
+          let link = document.createElement('a');
+          link.href = url;
+          link.download = 'report_data.csv';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      });
     }
 
 }

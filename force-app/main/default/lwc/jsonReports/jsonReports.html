@@ -4,6 +4,8 @@
             <lightning-input type="file" label="Upload JSON File" accept=".json" onchange={handleFileUpload}></lightning-input>
         </div>
 
+        
+
         <!-- Floating Balloon for JSON Content -->
         <template if:true={showBalloon}>
             <div class="balloon">
@@ -58,7 +60,12 @@
                     disabled={isNextDisabled}>
                 </lightning-button>
 
-                 
+                 <!-- Export CSV Button -->
+                <template if:true={showExportButton}>
+                    <div class="slds-m-around_medium">
+                        <lightning-button label="Export to CSV" onclick={exportToCSV}></lightning-button>
+                    </div>
+                </template>
             </div>
 
         </template>
