@@ -1,0 +1,24 @@
+{
+  "report": {
+    "object": "Opportunity",
+    "fields": ["Name", "StageName", "Amount" ],
+     "filter": "StageName IN ('Closed Won', 'Qualification')",
+    "recordLimit":100 
+  },
+  "dashboard": {
+    "charts": [
+      {
+        "type": "bar",
+        "title": "Opportunities by Amount",
+        "xAxis": "Name",
+        "yAxis": "Amount"
+      },
+      {
+        "type": "line",
+        "title": "Stage Distribution",
+        "xAxis": "StageName",
+        "yAxis": "Amount"
+      }
+    ]
+  }
+}
