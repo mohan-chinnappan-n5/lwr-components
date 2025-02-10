@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="REST API Console">
+        <div class="slds-m-around_medium">
+
+            <!-- API URL Input -->
+            <lightning-input type="text" label="API URL" value={apiUrl} onchange={handleUrlChange}></lightning-input>
+
+            <!-- HTTP Method Selection -->
+            <lightning-combobox label="HTTP Method" value={httpMethod} options={methodOptions} onchange={handleMethodChange}></lightning-combobox>
+    <!-- Headers Section -->
+ <template for:each={requestHeaders} for:item="header">
+     <div key={header.key} class="slds-grid slds-gutters">
+         <lightning-input type="text" label="Header Key" data-index={index} name="key" value={header.key} onchange={updateHeader}></lightning-input>
+         <lightning-input type="text" label="Header Value" data-index={index} name="value" value={header.value} onchange={updateHeader}></lightning-input>
+     </div>
+ </template>
+ 
+ <lightning-button label="Add Header" onclick={addHeader}></lightning-button>
+
+            <!-- Request Body (Only for POST/PUT) -->
+            <template if:true={isRequestBodyRequired}>
+                <lightning-textarea label="Request Body (JSON/XML)" value={requestBody} onchange={handleBodyChange}></lightning-textarea>
+            </template>
+
+            <!-- Action Buttons -->
+            <div class="slds-m-top_medium">
+                <lightning-button variant="brand" label="Send Request" onclick={sendRequest}></lightning-button>
+                <lightning-button variant="neutral" label="Clear Response" onclick={clearResponse} class="slds-m-left_small"></lightning-button>
+            </div>
+
+            <!-- Response Section -->
+            <template if:true={response}>
+                <div class="slds-m-top_medium">
+                    <h3 class="slds-text-heading_medium">Response</h3>
+                    <p>Status: {statusCode} | Time: {responseTime}ms</p>
+                    <lightning-textarea label="Response Data" value={response} readonly></lightning-textarea>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
