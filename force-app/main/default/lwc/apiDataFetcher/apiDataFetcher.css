@@ -1,0 +1,9 @@
+.json-container {
+    max-height: 300px;
+    overflow-y: auto;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+

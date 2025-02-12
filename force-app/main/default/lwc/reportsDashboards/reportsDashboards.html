@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Salesforce Reports & Dashboards">
+        <div class="slds-m-around_medium">
+
+            <!-- Dropdown to Select Report -->
+            <lightning-combobox 
+                label="Select Report" 
+                options={reports} 
+                value={selectedReportId} 
+                onchange={handleReportChange}>
+            </lightning-combobox>
+
+            <!-- Display Report Data -->
+            <template if:true={showTable}>
+                <h2 class="slds-text-heading_medium slds-m-top_medium">Report Data</h2>
+                <lightning-datatable key-field="Id" data={reportData} columns={columns} hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+
+            <!-- Chart -->
+            <template if:true={showChart}>
+                <h2 class="slds-text-heading_medium slds-m-top_medium">Report Chart</h2>
+                <div style="width: 100%; height: 400px;">
+                    <canvas></canvas>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

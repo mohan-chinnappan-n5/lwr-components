@@ -1,0 +1,47 @@
+<template>
+    <lightning-card title="Salesforce API Data Fetcher" icon-name="custom:custom63">
+        <div class="slds-m-around_medium">
+            
+            <!-- API Input Field -->
+            <lightning-input 
+                type="text" 
+                label="Enter Salesforce API Endpoint" 
+                value={apiName} 
+                onchange={handleInputChange}>
+            </lightning-input>
+
+            <!-- Fetch Data Button -->
+            <lightning-button 
+                label="Fetch Data" 
+                variant="brand" 
+                class="slds-m-top_medium" 
+                onclick={handleFetchData}>
+            </lightning-button>
+
+            <!-- Error Message -->
+            <template if:true={errorMessage}>
+                <p class="slds-text-color_error slds-m-top_medium">{errorMessage}</p>
+            </template>
+
+            <!-- JSON Output -->
+            <template if:true={jsonData}>
+                <h2 class="slds-text-heading_medium slds-m-top_medium">JSON Output</h2>
+                <div class="json-container slds-box slds-scrollable_y">
+                    <pre>{jsonDataString}</pre>
+                </div>
+            </template>
+
+            <!-- Data Table -->
+            <template if:true={tableData}>
+                <h2 class="slds-text-heading_medium slds-m-top_medium">Data Table</h2>
+                <lightning-datatable 
+                    key-field="Id" 
+                    data={tableData} 
+                    columns={columns} 
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

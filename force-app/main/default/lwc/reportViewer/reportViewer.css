@@ -1,0 +1,29 @@
+.balloon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 650px; /* Slightly wider for readability */
+    max-height: 600px; /* Limit height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Ensures JSON wraps properly */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title="Salesforce Report Viewer">
+        <div class="slds-m-around_medium">
+            <!-- File Upload for JSON Report Metadata -->
+            <lightning-input type="file" 
+                label="Upload Report JSON File" 
+                accept=".json" 
+                onchange={handleFileUpload}>
+            </lightning-input>
+        </div>
+
+        <!-- Error Message Display -->
+        <template if:true={errorMessage}>
+            <p class="slds-text-color_error slds-m-around_medium">{errorMessage}</p>
+        </template>
+
+         <!-- ✅ Floating Balloon for API Response -->
+           <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>❌</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
+
+        <!-- Display Report Name -->
+        <template if:true={showTable}>
+            <h2 class="slds-text-heading_medium slds-m-around_medium">{reportName}</h2>
+                      
+
+            <!-- Report Data Table
+
+              <lightning-card title="Column Details">
+                <lightning-textarea label="Columns"
+                                    value={columnsStr}
+                                    rows="10"
+                                    cols="50"
+                                    disabled="false">
+                </lightning-textarea>
+            </lightning-card> 
+            <lightning-datatable key-field="Id" 
+                data={reportData} 
+                columns={columns} 
+                hide-checkbox-column="true">
+            </lightning-datatable>
+        -->
+        </template>
+    </lightning-card>
+</template>
