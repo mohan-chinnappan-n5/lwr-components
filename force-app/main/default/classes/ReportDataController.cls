@@ -1,8 +1,8 @@
 public with sharing class ReportDataController {
     @AuraEnabled
     public static List<SObject> getReportData(String objectName, List<String> columns) {
-        System.debug('Fetching report data for object: ' + objectName);
-        System.debug('Columns: ' + columns);
+        //System.debug('Fetching report data for object: ' + objectName);
+        //System.debug('Columns: ' + columns);
         try {
             if (String.isEmpty(objectName)) {
                 throw new IllegalArgumentException('❌ Object Name is empty or invalid.');
@@ -25,11 +25,11 @@ public with sharing class ReportDataController {
             // Construct SOQL Query
             String soqlQuery = 'SELECT ' + String.join(columns, ', ') +
                                ' FROM ' + objectName + ' LIMIT 10';
-            System.debug('SOQL Query: ' + soqlQuery);
+            //System.debug('SOQL Query: ' + soqlQuery);
 
             // Execute SOQL Query
             List<SObject> results = Database.query(soqlQuery);
-            System.debug('Results: ' + results);
+            //System.debug('Results: ' + results);
             return results;
         } catch (Exception e) {
             System.debug('Error fetching report data: ' + e.getMessage());
