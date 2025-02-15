@@ -10,7 +10,7 @@ export default class RptViewer extends LightningElement {
     @track showBalloon = false;
     @track balloonContent = '';
 
-     // Pagination
+     // Pagination tracking
      @track pageSize = 10;  // Number of rows per page
      @track currentPage = 1; // Current page
      @track totalRecords = 0; // Total records in the dataset
@@ -22,7 +22,7 @@ export default class RptViewer extends LightningElement {
    }
 
      // Disabled state for pagination buttons
-     get isPreviousDisabled() {
+    get isPreviousDisabled() {
         return this.currentPage === 1;
     }
 
@@ -71,7 +71,7 @@ export default class RptViewer extends LightningElement {
             section.rows?.forEach(row => {
                 const rowData = {};
                 row.dataCells.forEach((cell, index) => {
-                    rowData[detailColumns[index]] = cell.value || '-';
+                    rowData[detailColumns[index]] = cell.label || '-';
                 });
                 tableData.push(rowData);
             });
@@ -111,12 +111,8 @@ export default class RptViewer extends LightningElement {
         this.aggregateData = aggregateData.map((row, index) => ({ id: index, ...row }));
     }
 
-    toggleJsonBalloon() {
-        this.showJson = !this.showJson;
-    }
-
-
-     // Update the paged data for current page
+    // pagination
+    // Update the paged data for current page
      updatePagedData() {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
