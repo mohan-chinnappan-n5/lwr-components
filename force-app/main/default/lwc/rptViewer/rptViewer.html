@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="📊 Salesforce Report Viewer">
+        <div class="slds-p-around_medium">
+            <!-- File Upload -->
+            <lightning-input type="file" label="Upload JSON File" 
+                             onchange={handleFileUpload} accept=".json">
+            </lightning-input>
+        </div>
+
+        <!-- ✅ Floating Balloon for API Response -->
+        <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>❌</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template> 
+
+        <!-- Report Table -->
+        <template if:true={reportData}>
+            <lightning-card title="📑 Report Data">
+                <lightning-datatable key-field="id"
+                                     data={pagedReportData}
+                                     columns={columns}>
+                </lightning-datatable>
+            </lightning-card>
+
+               <!-- Pagination Controls -->
+               <div class="slds-p-around_medium">
+                <lightning-button variant="neutral" label="Previous" 
+                                  data-direction="prev" onclick={handlePageChange}
+                                  disabled={isPreviousDisabled}>
+                                  >
+                </lightning-button>
+                <span> {currentPage} of {totalPages} </span>
+                <lightning-button variant="neutral" label="Next" 
+                                  data-direction="next" onclick={handlePageChange}
+                                  disabled={isNextDisabled}
+                                 >
+                </lightning-button>
+            </div> 
+        </template>
+
+        <!-- Aggregates Table -->
+        <template if:true={aggregateData}>
+            <lightning-card title="📈 Aggregate Data">
+                <lightning-datatable key-field="id"
+                                     data={aggregateData}
+                                     columns={aggregateColumns}>
+                </lightning-datatable>
+            </lightning-card>
+        </template>
+    </lightning-card>
+</template>
