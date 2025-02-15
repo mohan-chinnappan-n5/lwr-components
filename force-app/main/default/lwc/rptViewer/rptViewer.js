@@ -21,6 +21,11 @@ export default class RptViewer extends LightningElement {
      // search support
      @track searchTerm = ''; // Holds the search query
 
+     // sorting
+     @track sortBy;
+     @track sortDirection = 'asc'; // Default to ascending
+ 
+
  
    // Calculated value for total pages
    get totalPages() {
@@ -67,7 +72,8 @@ export default class RptViewer extends LightningElement {
         this.columns = detailColumns.map(col => ({
             label: col,
             fieldName: col,
-            type: 'text'
+            type: 'text', // TODO: Add support for other types
+            sortable: true
         }));
 
         // Extract Rows from factMap
@@ -155,6 +161,25 @@ export default class RptViewer extends LightningElement {
         }
         this.totalRecords = this.filteredReportData.length;
         this.currentPage = 1;
+        this.updatePagedData();
+    }
+
+     // Sorting Functionality
+     handleSort(event) {
+        const { fieldName, sortDirection } = event.detail;
+        // console.log(`Sorting by ${fieldName} in ${sortDirection} order`);
+        this.sortBy = fieldName;
+        this.sortDirection = sortDirection;
+
+        this.filteredReportData = [...this.filteredReportData].sort((a, b) => {
+            let valueA = a[fieldName] ? a[fieldName].toLowerCase() : '';
+            let valueB = b[fieldName] ? b[fieldName].toLowerCase() : '';
+
+            return this.sortDirection === 'asc' ? 
+                (valueA > valueB ? 1 : -1) : 
+                (valueA < valueB ? 1 : -1);
+        });
+
         this.updatePagedData();
     }
 

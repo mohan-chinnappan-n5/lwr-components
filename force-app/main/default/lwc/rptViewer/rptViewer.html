@@ -28,7 +28,13 @@
     
                 <lightning-datatable key-field="id"
                                      data={pagedReportData}
-                                     columns={columns}>
+                                     columns={columns}
+
+                                     sorted-by={sortBy}
+                                     sorted-direction={sortDirection}
+                                     onsort={handleSort}>
+
+                                     >
                 </lightning-datatable>
             </lightning-card>
 

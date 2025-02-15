@@ -1,0 +1,1 @@
+sf force source deploy -p force-app/main/default/lwc/$1
