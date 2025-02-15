@@ -18,6 +18,7 @@
         <!-- Report Table -->
         <template if:true={reportData}>
             <lightning-card title="📑 Report Data">
+                <h2 class="slds-text-heading_medium slds-m-around_medium">{reportName}</h2>
                 <lightning-datatable key-field="id"
                                      data={pagedReportData}
                                      columns={columns}>

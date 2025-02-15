@@ -15,6 +15,8 @@ export default class RptViewer extends LightningElement {
      @track currentPage = 1; // Current page
      @track totalRecords = 0; // Total records in the dataset
      @track pagedReportData = []; // Data for the current page
+
+     @track reportName = "";  // Report Name
  
    // Calculated value for total pages
    get totalPages() {
@@ -53,6 +55,7 @@ export default class RptViewer extends LightningElement {
 
 
     processReport(data) {
+        this.reportName = data.attributes.reportName || 'Unknown Report';
         // Extract Column Headers
         const detailColumns = data.reportMetadata?.detailColumns || [];
 
