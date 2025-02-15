@@ -17,6 +17,10 @@ export default class RptViewer extends LightningElement {
      @track pagedReportData = []; // Data for the current page
 
      @track reportName = "";  // Report Name
+
+     // search support
+     @track searchTerm = ''; // Holds the search query
+
  
    // Calculated value for total pages
    get totalPages() {
@@ -83,6 +87,8 @@ export default class RptViewer extends LightningElement {
         // Assign Data
         this.reportData = tableData.map((row, index) => ({ id: index, ...row }));
         this.totalRecords = this.reportData.length;
+        this.filteredReportData = [...this.reportData]; // Initialize filtered data
+
         // Paginate the data
         this.updatePagedData();
 
@@ -119,7 +125,9 @@ export default class RptViewer extends LightningElement {
      updatePagedData() {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        this.pagedReportData = this.reportData.slice(startIndex, endIndex);
+        //this.pagedReportData = this.reportData.slice(startIndex, endIndex);
+        this.pagedReportData = this.filteredReportData.slice(startIndex, endIndex);
+
     }
 
     // Handle page change
@@ -130,6 +138,23 @@ export default class RptViewer extends LightningElement {
         } else if (direction === 'prev' && this.currentPage > 1) {
             this.currentPage--;
         }
+        this.updatePagedData();
+    }
+
+    // Handle search
+    handleSearch(event) {
+        this.searchTerm = event.target.value;
+        if (this.searchTerm) {
+            this.filteredReportData = this.reportData.filter(row => {
+                return Object.values(row).some(value =>
+                    String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
+                );
+            });
+        } else {
+            this.filteredReportData = [...this.reportData];
+        }
+        this.totalRecords = this.filteredReportData.length;
+        this.currentPage = 1;
         this.updatePagedData();
     }
 

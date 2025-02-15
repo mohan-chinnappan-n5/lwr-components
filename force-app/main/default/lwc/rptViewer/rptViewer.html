@@ -19,6 +19,13 @@
         <template if:true={reportData}>
             <lightning-card title="📑 Report Data">
                 <h2 class="slds-text-heading_medium slds-m-around_medium">{reportName}</h2>
+                <!-- Search Box -->
+                <div class="slds-m-bottom_medium">
+                    <lightning-input type="search" label="Search" placeholder="Search records..." 
+                                        value={searchTerm} onkeyup={handleSearch}>
+                    </lightning-input>
+                </div>
+    
                 <lightning-datatable key-field="id"
                                      data={pagedReportData}
                                      columns={columns}>
