@@ -1,5 +1,8 @@
 import { LightningElement, track } from 'lwc';
 
+import generateCSVFile from '@salesforce/apex/CsvExportController.generateCSVFile';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 export default class RptViewer extends LightningElement {
     @track jsonContent = '';
     @track reportData = [];
@@ -24,6 +27,10 @@ export default class RptViewer extends LightningElement {
      // sorting
      @track sortBy;
      @track sortDirection = 'asc'; // Default to ascending
+
+     // csv download
+     @track showExportButton = false;
+     @track downloadUrl = '';
  
 
  
@@ -94,6 +101,7 @@ export default class RptViewer extends LightningElement {
         this.reportData = tableData.map((row, index) => ({ id: index, ...row }));
         this.totalRecords = this.reportData.length;
         this.filteredReportData = [...this.reportData]; // Initialize filtered data
+        this.showExportButton = true;
 
         // Paginate the data
         this.updatePagedData();
@@ -181,6 +189,54 @@ export default class RptViewer extends LightningElement {
         });
 
         this.updatePagedData();
+    }
+
+    // Export to CSV
+
+      // ✅ Convert Data to CSV Format
+      generateCSV() {
+        if (!this.reportData || this.reportData.length === 0) {
+            this.showToast('Error', 'No data available for export.', 'error');
+            return null;
+        }
+
+        let csvContent = '';
+        const columnHeaders = this.columns.map(col => col.label).join(',');
+        csvContent += columnHeaders + '\n';
+
+        this.reportData.forEach(row => {
+            let rowData = this.columns.map(col => row[col.fieldName] || '').join(',');
+            csvContent += rowData + '\n';
+        });
+
+        return btoa(csvContent); // Encode CSV data as base64
+    }
+
+    // ✅ Export Data and Store in Salesforce
+    handleExportCSV() {
+        const csvData = this.generateCSV();
+        if (!csvData) return;
+
+        const fileName = 'ReportData.csv';
+
+        generateCSVFile({ csvData, fileName })
+            .then(fileUrl => {
+                // window.open(fileUrl, '_blank'); // Open download link
+                this.downloadUrl = fileUrl; // Store file URL in a property
+                this.showToast('Success', 'CSV exported successfully!', 'success');
+
+
+            })
+            .catch(error => {
+                console.error('Error exporting CSV:', error);
+                this.showToast('Error', 'Failed to export CSV.', 'error');
+            });
+    }
+
+    // ✅ Show Toast Message
+    showToast(title, message, variant) {
+        const evt = new ShowToastEvent({ title, message, variant });
+        this.dispatchEvent(evt);
     }
 
 }
