@@ -82,7 +82,9 @@ export default class RptViewer extends LightningElement {
             type: 'text', // TODO: Add support for other types
             sortable: true
         }));
-
+        //  Fact map keys provide an index into each section of a fact map, 
+        //   from which you can access summary and detailed data.
+        // ref: https://developer.salesforce.com/docs/atlas.en-us.api_analytics.meta/api_analytics/sforce_analytics_rest_api_factmap_example.htm
         // Extract Rows from factMap
         const factMap = data.factMap || {};
         const tableData = [];
