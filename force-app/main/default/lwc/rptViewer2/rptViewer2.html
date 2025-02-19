@@ -1,0 +1,63 @@
+<template>
+    <!-- Balloon to show the JSON content -->
+    <template if:true={showBalloon}>
+        <section class="slds-box slds-box_xx-small slds-theme_alert-texture">
+            <header class="slds-text-heading_medium">JSON Content</header>
+            <div class="slds-p-top_medium">
+                <pre>{balloonContent}</pre>
+            </div>
+            <footer>
+                <button class="slds-button slds-button_neutral" onclick={closeBalloon}>Close</button>
+            </footer>
+        </section>
+    </template>
+
+    <!-- Report Viewer -->
+    <section class="slds-box slds-box_xx-small slds-theme_default">
+        <header class="slds-text-heading_medium">{reportName}</header>
+
+        <!-- Search Bar -->
+        <div class="slds-form-element slds-m-top_small">
+            <label class="slds-form-element__label">Search</label>
+            <div class="slds-form-element__control">
+                <input type="text" class="slds-input" placeholder="Search..." value={searchTerm} oninput={handleSearch} />
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="slds-scrollable_x slds-m-top_small">
+            <lightning-datatable 
+                data={pagedReportData}
+                columns={columns}
+                key-field="id"
+                onsort={handleSort}>
+            </lightning-datatable>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="slds-p-top_small">
+            <button 
+                class="slds-button slds-button_neutral" 
+                data-direction="prev"
+                onclick={handlePageChange} 
+                disabled={isPreviousDisabled}>
+                Previous
+            </button>
+            <span>{currentPage} of {totalPages}</span>
+            <button 
+                class="slds-button slds-button_neutral" 
+                data-direction="next"
+                onclick={handlePageChange} 
+                disabled={isNextDisabled}>
+                Next
+            </button>
+        </div>
+
+        <!-- Export to CSV Button -->
+        <template if:true={showExportButton}>
+            <div class="slds-m-top_medium">
+                <lightning-button label="Export to CSV" onclick={handleExportCSV}></lightning-button>
+            </div>
+        </template>
+    </section>
+</template>
