@@ -31,10 +31,16 @@
                 </lightning-datatable>
             </template>
 
-            <!-- Render JSON as Text if no tabular data -->
-            <template if:false={columns}>
-                <textarea rows="10" cols="80">{jsonResponse}</textarea>
-            </template>
+          
+
+            <!-- ✅ Floating Balloon for API Response -->
+           <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>❌</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
         </div>
     </lightning-card>
 </template>

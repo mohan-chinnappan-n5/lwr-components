@@ -1,4 +1,8 @@
 public with sharing class RestResourceController {
+
+    // ref: for setting up Named Credentials
+    // https://github.com/forcedotcom/b2b-commerce-on-lightning-quickstart/blob/master/examples/lwc/docs/NamedCredentials.md
+
     
     @AuraEnabled(cacheable=true)
     public static String fetchData(String resourcePath) {

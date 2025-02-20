@@ -8,6 +8,9 @@ export default class Resty extends LightningElement {
     @track columns;
     @track isLoading = false;
 
+    @track showBalloon = false;
+    @track balloonContent = '';
+
     handleUrlChange(event) {
         this.resourceUrl = event.target.value;
     }
@@ -32,16 +35,26 @@ export default class Resty extends LightningElement {
                             fieldName: field,
                             type: "text"
                         }));
+                        this.showBalloon = false;
+
                     }
                 } else {
                     this.columns = null;
+                    this.showBalloon = true;
+                    this.balloonContent = JSON.stringify(parsedData, null, 2);
                 }
             })
             .catch((error) => {
                 this.isLoading = false;
                 this.jsonResponse = JSON.stringify(error, null, 2);
+                this.balloonContent = this.jsonResponse;
+
                 this.columns = null;
             });
+    }
+
+    closeBalloon() {
+        this.showBalloon = false;
     }
 
      

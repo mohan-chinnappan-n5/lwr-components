@@ -1,21 +1,29 @@
-.json-balloon {
-    background: #f3f3f3;
+.balloon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
     border-radius: 10px;
-    padding: 10px;
-    max-width: 400px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 650px; /* Slightly wider for readability */
+    max-height: 600px; /* Limit height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
     word-wrap: break-word;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-    margin-top: 10px;
+    white-space: pre-wrap; /* Ensures JSON wraps properly */
+    transition: opacity 0.5s ease-in-out;
 }
 
-/* Adding the Balloon Effect */
-.json-balloon::before {
-    content: "";
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
     position: absolute;
-    top: -10px;
-    left: 15px;
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent transparent #f3f3f3 transparent;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
 }
