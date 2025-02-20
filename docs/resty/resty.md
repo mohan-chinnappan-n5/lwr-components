@@ -2,8 +2,8 @@
 # REST & Query Data Viewer (LWC Component)
 
 ## Code
-- [LWC Code](../../../lwrhw/force-app/main/default/lwc/resty/)
-- [Apex Code](../../../lwrhw/force-app/main/default/classes/RestResourceController.cls)
+- [LWC Code](https://github.com/mohan-chinnappan-n5/lwr-components/tree/main/force-app/main/default/lwc/resty)
+- [Apex Code](https://github.com/mohan-chinnappan-n5/lwr-components/blob/main/force-app/main/default/classes/RestResourceController.cls)
 
 ## Overview
 
