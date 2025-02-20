@@ -7,12 +7,12 @@
 ## Overview
 
 This Lightning Web Component (LWC) provides a UI to interact with Salesforce REST API and SOQL Query API, allowing users to fetch, view, and search data dynamically. It includes:
-	-	REST API Request Execution
-	-	SOQL Query Execution
-	-	Tooling API Support
-	-	Dynamic Data Table with Pagination, Sorting, and Search
-	-	Floating Balloon for API Responses
-    -   CSV download for the datatable component
+-	REST API Request Execution
+-	SOQL Query Execution
+-	Tooling API Support
+-	Dynamic Data Table with Pagination, Sorting, and Search
+-	Floating Balloon for API Responses
+-   CSV download for the datatable component
 
 
 ## Demo
