@@ -104,6 +104,23 @@
                         <lightning-button label="Next" onclick={handleNextPage} disabled={disableNext}></lightning-button>
                     </div>
                 </div>
+
+                  <!-- Export Button -->
+               <div class="slds-m-top_medium">
+                <template if:true={showExportButton}>
+                    <lightning-button label="Export to CSV" 
+                                    variant="brand" 
+                                    onclick={handleExportCSV}>
+                    </lightning-button>
+                </template>
+    
+                    <!-- Show download link when available -->
+                    <template if:true={downloadUrl}>
+                        <p class="slds-m-top_medium">
+                            ✅ CSV File Ready: <a href={downloadUrl} target="_blank" download>Click here to download (in a new tab)</a>
+                        </p>
+                    </template>
+                </div> 
             </template>
 
             <!-- Floating Balloon for API Response -->
