@@ -1,0 +1,21 @@
+.json-balloon {
+    background: #f3f3f3;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 400px;
+    word-wrap: break-word;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-top: 10px;
+}
+
+/* Adding the Balloon Effect */
+.json-balloon::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #f3f3f3 transparent;
+}

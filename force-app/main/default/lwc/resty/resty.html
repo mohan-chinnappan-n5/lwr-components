@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="REST API Data Viewer" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <!-- Input for REST URL -->
+            <lightning-input 
+                type="text" 
+                label="Enter REST Resource URL" 
+                value={resourceUrl} 
+                onchange={handleUrlChange}>
+            </lightning-input>
+
+            <!-- Fetch Data Button -->
+            <lightning-button 
+                label="Fetch Data" 
+                variant="brand" 
+                class="slds-m-top_medium"
+                onclick={fetchData}>
+            </lightning-button>
+
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Render as Datatable if JSON contains records -->
+            <template if:true={columns}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={tableData}
+                    columns={columns}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+
+            <!-- Render JSON as Text if no tabular data -->
+            <template if:false={columns}>
+                <textarea rows="10" cols="80">{jsonResponse}</textarea>
+            </template>
+        </div>
+    </lightning-card>
+</template>
