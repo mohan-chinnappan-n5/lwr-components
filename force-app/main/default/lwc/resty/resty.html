@@ -1,22 +1,64 @@
 <template>
-    <lightning-card title="REST API Data Viewer" icon-name="custom:custom14">
+    <lightning-card title="REST & Query Data Viewer" icon-name="custom:custom14">
         <div class="slds-m-around_medium">
-            <!-- Input for REST URL -->
-            <lightning-input 
-                type="text" 
-                label="Enter REST Resource URL" 
-                value={resourceUrl} 
-                onchange={handleUrlChange}>
-            </lightning-input>
+            <!-- Tab Navigation -->
+            <lightning-tabset active-tab-value={activeTab} onchange={handleTabChange}>
+                <!-- REST API Tab -->
+                <lightning-tab label="REST API" value="rest">
+                    <div class="slds-m-around_medium">
+                        <lightning-input 
+                            type="text" 
+                            label="Enter REST Resource URL" 
+                            value={resourceUrl} 
+                            onchange={handleUrlChange}>
+                        </lightning-input>
 
-            <!-- Fetch Data Button -->
-            <lightning-button 
-                label="Fetch Data" 
-                variant="brand" 
-                class="slds-m-top_medium"
-                onclick={fetchData}>
-            </lightning-button>
+                        <lightning-input 
+                            type="checkbox" 
+                            label="Use Tooling API" 
+                            checked={useToolingApi} 
+                            onchange={handleToolingApiToggle}>
+                        </lightning-input>
 
+                        <lightning-button 
+                            label="Fetch Data" 
+                            variant="brand" 
+                            class="slds-m-top_medium"
+                            onclick={fetchData}>
+                        </lightning-button>
+                    </div>
+                </lightning-tab>
+
+                <!-- Query Execution Tab -->
+                <lightning-tab label="Query Execution" value="query">
+                    <div class="slds-m-around_medium">
+                        <!-- SOQL Query as Textarea -->
+                        <lightning-textarea 
+                            label="Enter SOQL Query" 
+                            value={query} 
+                            onchange={handleQueryChange}
+                            rows="5"
+                            class="slds-m-bottom_medium">
+                        </lightning-textarea>
+
+                        <lightning-input 
+                            type="checkbox" 
+                            label="Use Tooling API" 
+                            checked={useToolingApi} 
+                            onchange={handleToolingApiToggle}>
+                        </lightning-input>
+
+                        <lightning-button 
+                            label="Run Query" 
+                            variant="brand" 
+                            class="slds-m-top_medium"
+                            onclick={fetchQueryData}>
+                        </lightning-button>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+
+            <!-- Loading Spinner -->
             <template if:true={isLoading}>
                 <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
             </template>
@@ -31,16 +73,13 @@
                 </lightning-datatable>
             </template>
 
-          
-
             <!-- ✅ Floating Balloon for API Response -->
-           <template if:true={showBalloon}>
-            <div class="balloon">
-                <button class="close-btn" onclick={closeBalloon}>❌</button>
-                <pre>{balloonContent}</pre>
-            </div>
-        </template>
-
+            <template if:true={showBalloon}>
+                <div class="balloon">
+                    <button class="close-btn" onclick={closeBalloon}>❌</button>
+                    <pre>{balloonContent}</pre>
+                </div>
+            </template>
         </div>
     </lightning-card>
 </template>
