@@ -32,7 +32,6 @@
                 <!-- Query Execution Tab -->
                 <lightning-tab label="Query Execution" value="query">
                     <div class="slds-m-around_medium">
-                        <!-- SOQL Query as Textarea -->
                         <lightning-textarea 
                             label="Enter SOQL Query" 
                             value={query} 
@@ -63,17 +62,34 @@
                 <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
             </template>
 
-            <!-- Render as Datatable if JSON contains records -->
+            <!-- DataTable with Pagination -->
             <template if:true={columns}>
                 <lightning-datatable
                     key-field="Id"
-                    data={tableData}
+                    data={paginatedData}
                     columns={columns}
                     hide-checkbox-column="true">
                 </lightning-datatable>
+
+                <!-- Pagination Controls -->
+                <div class="slds-m-top_medium slds-grid slds-grid_align-spread">
+                    <div>
+                        <lightning-combobox
+                            label="Page Size"
+                            value={pageSize}
+                            options={pageSizeOptions}
+                            onchange={handlePageSizeChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-m-top_medium">
+                        <lightning-button label="Previous" onclick={handlePreviousPage} disabled={disablePrevious}></lightning-button>
+                        <span class="slds-m-horizontal_medium">Page {currentPage} of {totalPages}</span>
+                        <lightning-button label="Next" onclick={handleNextPage} disabled={disableNext}></lightning-button>
+                    </div>
+                </div>
             </template>
 
-            <!-- ✅ Floating Balloon for API Response -->
+            <!-- Floating Balloon for API Response -->
             <template if:true={showBalloon}>
                 <div class="balloon">
                     <button class="close-btn" onclick={closeBalloon}>❌</button>

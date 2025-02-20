@@ -9,40 +9,53 @@ export default class Resty extends LightningElement {
     @track tableData = [];
     @track columns;
     @track isLoading = false;
-
     @track showBalloon = false;
     @track balloonContent = '';
+    @track useToolingApi = false;
 
-    @track useToolingApi = false; // Default to Standard API
+    // Pagination properties
+    @track pageSize = 10;
+    @track currentPage = 1;
+    @track paginatedData = [];
 
-    // Handle URL change for REST API
+    pageSizeOptions = [
+        { label: "5", value: "5" },
+        { label: "10", value: "10" },
+        { label: "20", value: "20" }
+    ];
+
+    get totalPages() {
+        return Math.ceil(this.tableData.length / this.pageSize);
+    }
+
+    get disablePrevious() {
+        return this.currentPage === 1;
+    }
+
+    get disableNext() {
+        return this.currentPage >= this.totalPages;
+    }
+
     handleUrlChange(event) {
         this.resourceUrl = event.target.value;
     }
 
-    // Toggle Tooling API usage
     handleToolingApiToggle(event) {
         this.useToolingApi = event.target.checked;
     }
 
-    // Handle SOQL query input (Textarea)
     handleQueryChange(event) {
         this.query = event.target.value;
     }
 
-    // Convert Query to REST URL and Fetch Data (with Tooling API support)
     fetchQueryData() {
-        // If Tooling API is enabled, use the Tooling endpoint for queries
         const apiPrefix = this.useToolingApi ? "/services/data/v60.0/tooling/query" : "/services/data/v60.0/query";
         this.resourceUrl = `${apiPrefix}?q=${encodeURIComponent(this.query)}`;
         this.fetchData();
     }
 
-    // Fetch Data from API (REST or Tooling)
     fetchData() {
         this.isLoading = true;
-
-        // If Tooling API is enabled, adjust the endpoint for REST API
         const apiPrefix = this.useToolingApi ? "/services/data/v60.0/tooling" : "/services/data/v60.0";
         let finalUrl = this.resourceUrl.startsWith(apiPrefix) ? this.resourceUrl : `${apiPrefix}${this.resourceUrl}`;
 
@@ -53,20 +66,20 @@ export default class Resty extends LightningElement {
 
                 try {
                     let parsedData = JSON.parse(response);
-
                     if (parsedData.records) {
                         this.tableData = parsedData.records;
 
-                        // Extract columns from the first record and ignore "attributes"
                         if (this.tableData.length > 0) {
                             this.columns = Object.keys(this.tableData[0])
-                                .filter(field => field !== "attributes") // Exclude "attributes"
+                                .filter(field => field !== "attributes")
                                 .map((field) => ({
                                     label: field,
                                     fieldName: field,
                                     type: "text"
                                 }));
                             this.showBalloon = false;
+                            this.currentPage = 1;
+                            this.updatePaginatedData();
                         }
                     } else {
                         this.columns = null;
@@ -88,11 +101,36 @@ export default class Resty extends LightningElement {
             });
     }
 
+    updatePaginatedData() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        const end = start + this.pageSize;
+        this.paginatedData = this.tableData.slice(start, end);
+    }
+
+    handlePreviousPage() {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.updatePaginatedData();
+        }
+    }
+
+    handleNextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            this.updatePaginatedData();
+        }
+    }
+
+    handlePageSizeChange(event) {
+        this.pageSize = parseInt(event.target.value, 10);
+        this.currentPage = 1;
+        this.updatePaginatedData();
+    }
+
     closeBalloon() {
         this.showBalloon = false;
     }
 
-    // Handle Tab Change
     handleTabChange(event) {
         this.activeTab = event.target.value;
     }
