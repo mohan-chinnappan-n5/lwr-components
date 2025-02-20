@@ -7,6 +7,8 @@ export default class Resty extends LightningElement {
     @track query = "SELECT Id, Name FROM Account";
     @track jsonResponse;
     @track tableData = [];
+    @track filteredData = [];
+
     @track columns;
     @track isLoading = false;
     @track showBalloon = false;
@@ -23,6 +25,12 @@ export default class Resty extends LightningElement {
         { label: "10", value: "10" },
         { label: "20", value: "20" }
     ];
+
+    @track searchKey = "";
+
+    // sorting
+    @track sortBy;
+    @track sortDirection = 'asc';
 
     get totalPages() {
         return Math.ceil(this.tableData.length / this.pageSize);
@@ -68,19 +76,36 @@ export default class Resty extends LightningElement {
                     let parsedData = JSON.parse(response);
                     if (parsedData.records) {
                         this.tableData = parsedData.records;
+                        this.filteredData = [...this.tableData];
 
-                        if (this.tableData.length > 0) {
+
+                    if (this.tableData.length > 0) {
                             this.columns = Object.keys(this.tableData[0])
                                 .filter(field => field !== "attributes")
-                                .map((field) => ({
-                                    label: field,
-                                    fieldName: field,
-                                    type: "text"
-                                }));
+                                .map((field) => {
+                                    let sampleValue = this.tableData[0][field];
+                                    let columnType = "text"; // Default type
+                        
+                                    if (typeof sampleValue === "number") {
+                                        columnType = "number";
+                                    } else if (typeof sampleValue === "boolean") {
+                                        columnType = "boolean";
+                                    } else if (field.toLowerCase().includes("date") || field.toLowerCase().includes("time")) {
+                                        columnType = "date";
+                                    }
+                        
+                                    return {
+                                        label: field,
+                                        fieldName: field,
+                                        type: columnType,
+                                        sortable: true
+                                    };
+                                });
+                        
                             this.showBalloon = false;
                             this.currentPage = 1;
                             this.updatePaginatedData();
-                        }
+                        }   
                     } else {
                         this.columns = null;
                         this.showBalloon = true;
@@ -104,7 +129,9 @@ export default class Resty extends LightningElement {
     updatePaginatedData() {
         const start = (this.currentPage - 1) * this.pageSize;
         const end = start + this.pageSize;
-        this.paginatedData = this.tableData.slice(start, end);
+        // this.paginatedData = this.tableData.slice(start, end);
+        this.paginatedData = this.filteredData.slice(start, end);
+
     }
 
     handlePreviousPage() {
@@ -133,5 +160,50 @@ export default class Resty extends LightningElement {
 
     handleTabChange(event) {
         this.activeTab = event.target.value;
+    }
+    // search support
+    handleSearch(event) {
+        this.searchKey = event.target.value.toLowerCase();
+        if (this.searchKey) {
+            this.filteredData = this.tableData.filter((record) =>
+                Object.values(record).some((val) =>
+                    val && val.toString().toLowerCase().includes(this.searchKey)
+                )
+            );
+        } else {
+            this.filteredData = [...this.tableData];
+        }
+        this.currentPage = 1;
+        this.updatePaginatedData();
+    }
+
+
+    // sorting
+    handleSort(event) {
+        const { fieldName, sortDirection } = event.detail;
+        this.sortBy = fieldName;
+        this.sortDirection = sortDirection;
+        this.sortData(fieldName, sortDirection);
+    }
+    
+    sortData(fieldName, sortDirection) {
+        let sortedData = [...this.filteredData];
+    
+        sortedData.sort((a, b) => {
+            let valA = a[fieldName] || '';
+            let valB = b[fieldName] || '';
+    
+            if (typeof valA === 'string') {
+                valA = valA.toLowerCase();
+                valB = valB.toLowerCase();
+            }
+    
+            return sortDirection === 'asc'
+                ? valA > valB ? 1 : -1
+                : valA < valB ? 1 : -1;
+        });
+    
+        this.filteredData = sortedData;
+        this.updatePaginatedData();
     }
 }

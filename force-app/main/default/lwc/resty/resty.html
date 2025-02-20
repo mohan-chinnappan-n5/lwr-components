@@ -61,6 +61,17 @@
             <template if:true={isLoading}>
                 <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
             </template>
+            <!-- Search Box -->
+            <template if:true={columns}>
+                <lightning-input 
+                    type="search" 
+                    label="Search Data" 
+                    placeholder="Type to filter records..." 
+                    value={searchKey} 
+                    onchange={handleSearch}>
+                </lightning-input>
+            </template>
+
 
             <!-- DataTable with Pagination -->
             <template if:true={columns}>
@@ -68,7 +79,13 @@
                     key-field="Id"
                     data={paginatedData}
                     columns={columns}
-                    hide-checkbox-column="true">
+                    hide-checkbox-column="true"
+                    
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSort}
+                    >
+                    
                 </lightning-datatable>
 
                 <!-- Pagination Controls -->
