@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="📊 Salesforce Matrix Report Viewer" icon-name="standard:report">
+        <div class="slds-p-around_medium">
+            <lightning-input type="file" label="Upload JSON File" onchange={handleFileUpload} accept=".json"></lightning-input>
+        </div>
+
+        <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>❌</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
+        <!-- Show Table Only If Data Exists -->
+        <template if:true={matrixData}>
+            <div class="slds-m-top_medium">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th></th> <!-- Empty Corner -->
+                            <template for:each={columnLabels} for:item="col">
+                                <th key={col}>{col}</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={matrixData} for:item="row">
+                            <tr key={row.rowLabel}>
+                                <th>{row.rowLabel}</th>
+                                <template for:each={row.values} for:item="cell">
+                                    <td key={cell.value} class={cell.cellClass}>{cell.value}</td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+    </lightning-card>
+</template>

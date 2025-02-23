@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="📊 Salesforce Matrix Report Viewer">
+        <div class="slds-p-around_medium">
+            <lightning-input type="file" label="Upload JSON File" onchange={handleFileUpload} accept=".json"></lightning-input>
+        </div>
+
+        <template if:true={showBalloon}>
+            <div class="balloon">
+                <button class="close-btn" onclick={closeBalloon}>❌</button>
+                <pre>{balloonContent}</pre>
+            </div>
+        </template>
+
+        <template if:true={matrixData.length}>
+            <lightning-card title="📑 Matrix Report Data">
+                <h2 class="slds-text-heading_medium slds-m-around_medium">{reportName}</h2>
+
+                <lightning-datatable key-field="id" data={pagedMatrixData} columns={columns} onsort={handleSort}></lightning-datatable>
+
+                <div class="slds-p-around_medium">
+                    <lightning-button variant="neutral" label="Previous" data-direction="prev" onclick={handlePageChange} disabled={isPreviousDisabled}></lightning-button>
+                    <span> {currentPage} of {totalPages} </span>
+                    <lightning-button variant="neutral" label="Next" data-direction="next" onclick={handlePageChange} disabled={isNextDisabled}></lightning-button>
+                </div>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button label="Export to CSV" variant="brand" onclick={handleExportCSV}></lightning-button>
+                </div>
+            </lightning-card>
+        </template>
+    </lightning-card>
+</template>
