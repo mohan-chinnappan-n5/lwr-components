@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="Salesforce Dashboard Viewer" icon-name="custom:custom63">
+        <div class="slds-p-around_medium">
+            <!-- File Upload -->
+            <lightning-input type="file" label="Upload JSON File" accept=".json" onchange={handleFileUpload} class="slds-m-bottom_medium"></lightning-input>
+
+            <!-- Dashboard Info -->
+            <template if:true={dashboardLoaded}>
+                <div class="slds-text-heading_medium slds-m-bottom_small">{dashboardName}</div>
+                <p class="slds-text-body_regular slds-text-color_weak">{dashboardDescription}</p>
+
+                <!-- Report Table -->
+                <div class="slds-m-top_medium">
+                    <h2 class="slds-text-heading_small slds-m-bottom_x-small">{reportTitle}</h2>
+                    <div class="slds-scrollable_x">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <template for:each={columns} for:item="col">
+                                        <th key={col.column} scope="col">
+                                            <div class="slds-truncate" title={col.column}>{col.column}</div>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={tableData} for:item="row">
+                                    <tr key={row.id}>
+                                        <template for:each={columns} for:item="col">
+                                            <td key={col.column}>
+                                                <div class="slds-truncate" title={row[col.column]}>{row[col.column]}</div>
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

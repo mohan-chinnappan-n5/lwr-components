@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="canvasAppDeveloperName" type="String" default="CanvasNodeApp" />
+    
+    <lightning:card title="Canvas App Host">
+        <div class="slds-p-around_medium">
+            <!-- Canvas App Component (No `id`, Use `aura:id`) -->
+            <force:canvasApp aura:id="canvasApp" developerName="{!v.canvasAppDeveloperName}"/>
+            
+            <!-- Status Message -->
+            <p>Status: <span aura:id="statusMessage">Initializing...</span></p>
+            <p>User Info: <pre aura:id="userContext"></pre></p>
+        </div>
+    </lightning:card>
+</aura:component>

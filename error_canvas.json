@@ -1,0 +1,15 @@
+{
+    "subject": "window error",
+    "message": "Sfdc.canvas.client.init is not a function",
+    "stack": "TypeError: Sfdc.canvas.client.init is not a function\n at eval (modules/c/canvasAppHost.js:3:2014)\n at Array.invoker (eval at (eval at (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:23:6674)), :47:7)\n at Array.forEach ()\n at Object.each (eval at (eval at (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:23:6674)), :59:11)\n at ready (eval at (eval at (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:23:6674)), :669:9)\n at eval (eval at (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:23:6674), :5:22498)\n at nt.applyTrapForTwoOrMoreArgs (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:21:3625)\n at nt. (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:21:3006)\n at c (https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker:31:56290)",
+    "extra": {
+        "message": "Uncaught #",
+        "filename": "https://dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com/webruntime/framework/853e65fbf7/prod/lwr_bootstrap_locker",
+        "lineno": 21,
+        "colno": 3944
+    },
+    "location": {
+        "pathname": "/",
+        "hostname": "dhs000000qasyma4-dev-ed.develop.live-preview.salesforce-experience.com"
+    }
+}

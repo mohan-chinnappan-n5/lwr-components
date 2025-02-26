@@ -1,0 +1,1 @@
+ sf lightning generate component   --name $1 --output-dir force-app/main/default/aura

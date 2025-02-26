@@ -1,0 +1,12 @@
+
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global">  
+
+<lightning:card >
+    <aura:set attribute="title">
+        <lightning:icon iconName="utility:connected_apps" size="small"/> <b>Canvas App using aura: force:canvasApp </b>
+    </aura:set>
+    <force:canvasApp width="100%" maxWidth="infinite" height="600px" maxHeight="infinite"
+                        developerName="CanvasNodeApp"/>
+</lightning:card>
+
+</aura:component>

@@ -1,0 +1,9 @@
+<template>
+    <lightning-card title="Embedded Canvas App in LWC using VF Page in Iframe" icon-name="custom:custom63">
+        <div class="iframe-container">
+            <iframe src={vfPageUrl} onload={handleLoad} 
+            allow="geolocation; microphone; camera" class="iframe-content">
+            </iframe>
+        </div>
+    </lightning-card>
+</template>
